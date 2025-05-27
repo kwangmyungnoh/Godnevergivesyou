@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>꿈을 포기하지 마세요: 당신을 향한 하나님의 갓심 프로젝트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            scroll-behavior: smooth;
+        }
+        .nav-active {
+            color: #fde047; 
+            font-weight: 700;
+        }
+        .section-title {
+            font-size: 2.5rem; /* Tailwind text-4xl */
+            font-weight: 700; /* Tailwind font-bold */
+            margin-bottom: 1.5rem; /* Tailwind mb-6 */
+            color: #78350f; /* amber-800 */
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .quote {
+            border-left: 4px solid #fbbf24; /* amber-400 */
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #57534e; /* neutral-600 */
+        }
+        .interactive-button {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .interactive-button:hover {
+            background-color: #d97706; /* amber-600 */
+        }
+        .daughter-card {
+            background-color: #fff7ed; /* orange-50 */
+            border: 1px solid #fed7aa; /* orange-200 */
+            color: #9a3412; /* orange-800 */
+        }
+         .stewardship-active-button {
+            background-color: #78350f; /* amber-800 */
+            color: white;
+        }
+        /* Ensure full width for sections, but content centered */
+        section > div {
+            max-width: 1024px; /* lg:max-w-screen-lg */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #f59e0b;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Visualization & Content Choices: 
+        - 인트로 - 어려움 공감: 클릭 가능한 어려움 목록 (HTML/JS)으로 참여 유도. 목표: 정보 전달/참여.
+        - 슬로브핫 딸들 이름: 클릭 가능한 이름 카드 (HTML/JS). 목표: 정보 전달/참여.
+        - 새로운 상속법: HTML/CSS 다이어그램. 목표: 명확화.
+        - 청지기 리플렉션: 클릭 가능한 카테고리 버튼으로 텍스트 영역 업데이트 (HTML/JS). 목표: 참여/적용.
+        - 핵심 약속 구절: 스타일된 텍스트 블록, 복사 가능 (HTML/JS). 목표: 영감/강화.
+        - LLM 통합 1 (인트로 섹션): 'struggle-item' 클릭 시 Gemini API 호출하여 사용자에게 공감 및 격려 메시지 생성. 목표: 사용자 참여 및 개인화된 메시지 제공.
+        - LLM 통합 2 (나의 기업 섹션): '나의 기업' 입력 후 버튼 클릭 시 Gemini API 호출하여 사용자 다짐에 대한 격려 및 축복 메시지 생성. 목표: 사용자 다짐 강화 및 말씀 적용.
+        설교 내용이 주로 서사적이고 개념적이므로 복잡한 차트(Chart.js)는 불필요하다고 판단. 텍스트 기반 상호작용 및 성찰에 중점.
+        CONFIRMING NO SVG/Mermaid. -->
+    </head>
+<body class="bg-amber-50 text-neutral-800 antialiased">
+
+    <header class="bg-amber-700 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <h1 class="text-xl sm:text-2xl font-bold">꿈을 포기하지 마세요</h1>
+            <nav class="mt-2 sm:mt-0">
+                <ul class="flex space-x-2 sm:space-x-3 text-sm sm:text-base">
+                    <li><a href="#intro" class="hover:text-amber-300 px-2 py-1 rounded nav-link">인트로</a></li>
+                    <li><a href="#daughters" class="hover:text-amber-300 px-2 py-1 rounded nav-link">용기의 시작</a></li>
+                    <li><a href="#answer" class="hover:text-amber-300 px-2 py-1 rounded nav-link">하나님의 응답</a></li>
+                    <li><a href="#stewardship" class="hover:text-amber-300 px-2 py-1 rounded nav-link">청지기</a></li>
+                    <li><a href="#gotthusiam" class="hover:text-amber-300 px-2 py-1 rounded nav-link">'갓심'</a></li>
+                    <li><a href="#action" class="hover:text-amber-300 px-2 py-1 rounded nav-link">나의 기업</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro" class="min-h-screen py-16 px-4">
+            <div class="text-center">
+                <h2 class="section-title">꿈을 포기하고 싶은 순간들</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">이 여정은 민수기 27장의 슬로브핫 딸들의 이야기를 통해, 우리가 꿈을 포기하고 싶을 때 하나님께서 어떻게 용기를 주시고 새로운 길을 여시는지 탐색합니다. 첫 번째 섹션에서는 우리가 일상에서 겪는 어려움에 공감하며 이야기의 문을 엽니다.</p>
+                <div class="content-card max-w-2xl mx-auto">
+                    <h3 class="text-xl font-semibold text-amber-700 mb-4">언제 꿈을 포기하고 싶었나요?</h3>
+                    <div id="strugglesContainer" class="space-y-3">
+                        <button data-struggle="취업 준비 50번째 떨어졌을 때?" class="struggle-item w-full text-left p-3 bg-amber-100 hover:bg-amber-200 rounded-lg transition-colors duration-200 text-amber-800">😥 취업 준비 50번째 떨어졌을 때?</button>
+                        <button data-struggle="좋아하는 사람에게 차였을 때?" class="struggle-item w-full text-left p-3 bg-amber-100 hover:bg-amber-200 rounded-lg transition-colors duration-200 text-amber-800">💔 좋아하는 사람에게 차였을 때?</button>
+                        <button data-struggle="부모님이 현실적으로 생각하라고 하실 때?" class="struggle-item w-full text-left p-3 bg-amber-100 hover:bg-amber-200 rounded-lg transition-colors duration-200 text-amber-800">😟 부모님이 "현실적으로 생각해"라고 하실 때?</button>
+                        <button data-struggle="통장 잔고를 확인했을 때?" class="struggle-item w-full text-left p-3 bg-amber-100 hover:bg-amber-200 rounded-lg transition-colors duration-200 text-amber-800">💸 통장 잔고를 확인했을 때?</button>
+                    </div>
+                    <p id="struggleReflection" class="mt-4 text-sm text-neutral-600 min-h-[20px]"></p>
+                </div>
+                 <p class="mt-10 text-neutral-600">아래로 스크롤하여 여정을 계속하세요 👇</p>
+            </div>
+        </section>
+
+        <section id="daughters" class="min-h-screen py-16 px-4 bg-rose-50">
+            <div class="text-center">
+                <h2 class="section-title">포기할 이유만 가득할 때: 슬로브핫 다섯 딸들의 용기</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">이 섹션에서는 불가능해 보이는 현실 앞에서 믿음으로 나아간 슬로브핫 딸들의 이야기를 살펴봅니다. 그들의 용기가 오늘 우리에게 어떤 메시지를 주는지, 그리고 보이지 않는 장벽을 깨뜨린 또 다른 인물의 이야기를 통해 영감을 얻어봅시다.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="content-card text-left">
+                        <h3 class="text-xl font-semibold text-amber-700 mb-3">슬로브핫 다섯 딸들의 현실 (민 27:1-4)</h3>
+                        <p class="mb-2">이스라엘 12지파 중 므낫세 지파의 슬로브핫에게는 아들은 없고 딸만 다섯 명이 있었습니다. 당시에는 아버지의 모든 기업(땅 포함)이 오직 아들에게만 전수되었기에, 이 다섯 딸들은 아버지의 땅을 하나도 받을 수 없는 상황이었습니다.</p>
+                        <p class="mb-4">이것은 마치 우리가 마주한 현실과 같습니다: "문과는 취업이 안 된다", "집안이 가난해서 꿈을 꿀 수 없다", "스펙이 부족해서 포기해야 한다" 등...</p>
+                        <h4 class="font-semibold text-amber-600 mb-2">다섯 자매의 이름 (클릭해보세요!):</h4>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button onclick="showDaughterInfo('말라')" class="daughter-card interactive-button text-sm px-3 py-1.5">말라</button>
+                            <button onclick="showDaughterInfo('노아')" class="daughter-card interactive-button text-sm px-3 py-1.5">노아</button>
+                            <button onclick="showDaughterInfo('호글라')" class="daughter-card interactive-button text-sm px-3 py-1.5">호글라</button>
+                            <button onclick="showDaughterInfo('밀가')" class="daughter-card interactive-button text-sm px-3 py-1.5">밀가</button>
+                            <button onclick="showDaughterInfo('디르사')" class="daughter-card interactive-button text-sm px-3 py-1.5">디르사</button>
+                        </div>
+                        <p id="daughterInfo" class="text-sm text-neutral-600 min-h-[40px] p-2 bg-white rounded-md border"></p>
+                        <p class="mt-3">그러나 이 다섯 딸들은 회막문(회막 입구), 즉 중요한 정치적, 법적 쟁점을 다루기 위해 회중 전체가 모이는 공간으로 나아가 당당히 요구했습니다: <span class="font-semibold">"어찌하여 아들이 없다고 우리 아버지의 이름이 그의 종족 중에서 삭제되리이까 우리 아버지의 형제 중에서 우리에게 기업을 주소서 하매" (민 27:4)</span></p>
+                    </div>
+
+                    <div class="content-card text-left">
+                        <h3 class="text-xl font-semibold text-amber-700 mb-3">보이지 않는 장벽을 넘다: 캐서린 스위처</h3>
+                        <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Kathrine+Switzer+(Placeholder)" alt="캐서린 스위처 보스턴 마라톤 참가 모습 (이미지 준비중)" class="rounded-lg mb-4 w-full h-auto object-cover max-h-60" onerror="this.src='https://placehold.co/600x400/e2e8f0/64748b?text=Image+Not+Found'; this.alt='이미지 로드 실패';">
+                        <p class="mb-2">1967년, 여성 출전이 금지된 보스턴 마라톤에 캐서린 스위처는 당당히 참가합니다. 남자들의 야유와 조롱, 심지어 대회 관계자의 물리적인 방해 속에서도 그녀는 끝까지 완주했습니다.</p>
+                        <p class="mb-4">누가 허락하지 않아도, 하나님의 정의를 신뢰하며 담대히 나아가는 사람이 역사를 만듭니다. 슬로브핫 딸들의 모습과 닮아있지 않나요?</p>
+                        <div class="quote">
+                            <p>"세상은 사람을 부순다. 하지만 그 부서진 자리에서 우리는 강해진다."</p>
+                            <p class="text-right">- 어니스트 헤밍웨이, 《무기여 잘 있거라》</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="answer" class="min-h-screen py-16 px-4">
+            <div class="text-center">
+                <h2 class="section-title">하나님의 정의로운 판결: 새로운 길이 열리다</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">슬로브핫 딸들의 용기 있는 요구에 하나님께서 어떻게 응답하셨는지 알아봅니다. 이 섹션에서는 모세의 지혜로운 중재와 하나님의 정의로운 판결을 통해 기존의 관습을 넘어 새로운 상속법이 제정되는 과정을 살펴보고, 이것이 우리 삶에 주는 의미를 생각해봅니다.</p>
+                <div class="content-card max-w-3xl mx-auto text-left">
+                    <p class="mb-3">슬로브핫 딸들의 이의제기를 들은 모세는 이 복잡한 문제를 혼자 판단하지 않고 하나님께 기도합니다. 그리고 하나님께서는 그들의 요구가 옳다고 하시면서 새로운 상속법을 제시하십니다.</p>
+                    <p class="quote text-lg font-semibold text-amber-700">"슬로브핫 딸들의 말이 옳으니 너는 반드시 그들의 아버지의 형제 중에서 그들에게 기업을 주어 받게 하되 그들의 아버지의 기업을 그들에게 돌릴지니라" (민 27:7)</p>
+                    <h3 class="text-xl font-semibold text-amber-700 mt-6 mb-4">새로운 상속법의 탄생:</h3>
+                    <div class="space-y-3 text-neutral-700">
+                        <div class="p-4 bg-amber-100 rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">1️⃣</span>
+                            <p><strong class="text-amber-700">아들이 없으면:</strong> 딸에게 상속</p>
+                        </div>
+                        <div class="p-4 bg-amber-100 rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">2️⃣</span>
+                            <p><strong class="text-amber-700">딸도 없으면:</strong> 고인의 형제에게 상속</p>
+                        </div>
+                        <div class="p-4 bg-amber-100 rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">3️⃣</span>
+                            <p><strong class="text-amber-700">형제도 없으면:</strong> 고인의 아버지의 형제(삼촌)에게 상속</p>
+                        </div>
+                        <div class="p-4 bg-amber-100 rounded-lg flex items-center space-x-3">
+                            <span class="text-2xl">4️⃣</span>
+                            <p><strong class="text-amber-700">아버지의 형제도 없으면:</strong> 가장 가까운 친족에게 상속</p>
+                        </div>
+                    </div>
+                    <p class="mt-6">이것은 당시 문화와 관습을 고려할 때 매우 획기적인 사건이었습니다. 하나님은 기존의 관습보다 <strong class="text-amber-700">정의와 공평</strong>을 더 중요하게 여기십니다. 여러분의 꿈과 비전이 하나님의 뜻과 맞다면, 하나님은 불가능해 보이는 것도 가능하게 만드십니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="stewardship" class="min-h-screen py-16 px-4 bg-rose-50">
+            <div class="text-center">
+                <h2 class="section-title">땅의 진짜 주인은 누구? 우리의 청지기 정신</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">이 섹션에서는 모든 것의 주인이 하나님이심을 선포하는 레위기 말씀을 통해 우리의 청지기적 사명을 탐구합니다. 시간, 재능, 물질 등 우리에게 맡겨진 것들을 어떻게 관리해야 할지 청년들을 위한 구체적인 적용점과 함께 고민해봅니다.</p>
+                <div class="content-card max-w-3xl mx-auto text-left">
+                    <p class="quote text-lg font-semibold text-amber-700">"토지를 영구히 팔지 말 것은 토지는 다 내 것임이니라 너희는 거류민이요 동거하는 자로서 나와 함께 있느니라" (레 25:23)</p>
+                    <p class="mb-4">하나님께서는 땅이 영원히 개인의 소유가 되어 인간의 교만과 물질에 대한 집착을 낳는 것을 막으셨습니다. 우리는 주인이 아니라 청지기입니다. 시간, 재능, 돈, 생명 모두 주님께서 맡기신 것입니다.</p>
+                    
+                    <h3 class="text-xl font-semibold text-amber-700 mt-6 mb-4">나의 청지기 생활 돌아보기 (클릭하여 내용 확인):</h3>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                        <button class="stewardship-item interactive-button w-full" data-reflection="time">⏰ 시간 관리</button>
+                        <button class="stewardship-item interactive-button w-full" data-reflection="talent">🎨 재능 개발</button>
+                        <button class="stewardship-item interactive-button w-full" data-reflection="money">💰 물질 사용 (십일조)</button>
+                        <button class="stewardship-item interactive-button w-full" data-reflection="career">🎯 진로 선택</button>
+                    </div>
+                    <div id="stewardshipReflectionText" class="p-4 bg-white rounded-lg border min-h-[100px] text-neutral-700">
+                        청지기 항목을 선택하여 관련된 성찰 내용을 확인해보세요.
+                    </div>
+                    <p class="mt-6">우리가 하나님의 주권을 인정하고 청지기로서 살아갈 때, 우리의 삶은 더욱 풍성해지고 진정한 자유와 평화를 누리게 될 것입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gotthusiam" class="min-h-screen py-16 px-4">
+            <div class="text-center">
+                <h2 class="section-title">나를 향한 하나님의 '갓심': 포기하지 않으시는 이유</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">우리가 연약하고 실수할지라도 하나님께서 우리를 포기하지 않으시는 이유, 바로 그분의 '열심'에 대해 알아봅니다. 이 섹션에서는 갈렙, 아브라함의 이야기를 통해 우리를 향한 하나님의 신실하심과 궁극적인 해답이신 예수 그리스도를 만나봅니다.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="content-card text-left">
+                        <h3 class="text-xl font-semibold text-amber-700 mb-3">간절함에 응답하시는 하나님</h3>
+                        <p class="mb-2">이어령 교수의 제비 관찰 이야기처럼, 어미 제비는 가장 간절히 입을 벌리는 새끼에게 먹이를 줍니다. 하나님도 진심으로 부르짖는 자에게 응답하십니다.</p>
+                        <p class="mb-2">85세의 갈렙은 "그 날에 여호와께서 말씀하신 이 산지를 지금 내게 주소서" (수 14:12)라며 하나님의 약속을 향한 간절함으로 나아갔습니다.</p>
+                        <p class="mb-2">슬로브핫 딸들의 요구 역시 개인적 욕심이 아닌, 아버지의 이름과 하나님의 약속(창 12:7)을 보존하려는 하나님을 향한 열심에서 비롯되었습니다.</p>
+                        <h4 class="font-semibold text-amber-600 mt-4 mb-2">약속의 말씀 붙잡기:</h4>
+                        <div class="space-y-2">
+                            <p class="p-2 bg-amber-50 rounded text-sm text-amber-700">📖 <strong class="text-amber-700">수 14:12</strong> "...여호와께서 나와 함께 하시면 내가 여호와께서 말씀하신 대로 그들을 쫓아내리이다"</p>
+                            <p class="p-2 bg-amber-50 rounded text-sm text-amber-700">📖 <strong class="text-amber-700">창 12:7</strong> "여호와께서 아브람에게 나타나 이르시되 내가 이 땅을 네 자손에게 주리라..."</p>
+                        </div>
+                    </div>
+                    <div class="content-card text-left">
+                        <h3 class="text-xl font-semibold text-amber-700 mb-3">우리를 향한 하나님의 열심</h3>
+                        <p class="mb-2">박영선 목사님의 <하나님의 열심>에 따르면, 성경의 위인들은 본래 영웅이 아니라 하나님의 열심 때문에 위대해졌습니다. 아브라함은 아내를 누이라고 속이는 실수를 반복했지만, 하나님은 약속을 지키기 위해 당신의 열심으로 아브라함을 보호하고 이끄셨습니다.</p>
+                        <p class="mb-2">우리의 열심은 부족하고 무너질 때가 많습니다. 그러나 우리를 향한 하나님의 열심은 예수 그리스도의 십자가에서 완성되었습니다.</p>
+                        <p class="quote text-lg font-semibold text-amber-700">"너희 안에서 착한 일을 시작하신 이가 그리스도 예수의 날까지 이루실 줄을 우리는 확신하노라" (빌 1:6)</p>
+                        <p class="mt-3">우리가 하나님을 위한 열심을 내기 전에, 나를 향한 하나님의 열심을 먼저 경험해야 합니다. 그분이 나를 위해 어떤 싸움을 싸우셨는지를요.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="action" class="min-h-screen py-16 px-4 bg-rose-50">
+            <div class="text-center">
+                <h2 class="section-title">꿈을 포기하지 마세요: 하나님이 주신 나의 '기업' 지키기</h2>
+                <p class="text-lg text-neutral-700 mb-8 leading-relaxed">마지막으로, 이 모든 말씀을 통해 우리가 삶에서 지켜나가야 할 '기업'이 무엇인지 정의하고, 그것을 향한 구체적인 다짐을 새겨봅니다. 하나님은 당신의 꿈을 포기하지 않으십니다. 당신도 포기하지 마세요!</p>
+                <div class="content-card max-w-3xl mx-auto text-left">
+                    <p class="quote text-lg font-semibold text-amber-700">"여호와의 계획은 영원히 서고 그의 생각은 대대에 이르리로다" (시 33:11)</p>
+                    <p class="my-4">지금 여러분이 포기하고 싶은 것이 있습니까? 취업, 관계, 신앙... 하나님은 여러분의 그 지점을 주목하고 계십니다. 지금 포기하고 싶은 그 자리, 바로 거기가 하나님이 역사하시려는 자리입니다. 피하지 마세요. 그곳에서 하나님의 열심이 시작됩니다.</p>
+                    
+                    <h3 class="text-xl font-semibold text-amber-700 mt-6 mb-4">청년 세대의 사명: 나의 '기업'은 무엇인가요?</h3>
+                    <p class="mb-3">슬로브핫 딸들이 아버지의 이름을 지키려 했듯이, 갈렙이 약속의 땅을 취하려 했듯이, 우리도 하나님께서 주신 기업을 지켜야 합니다.</p>
+                    <div class="space-y-3 mb-6">
+                        <div class="p-3 bg-amber-100 rounded-lg text-amber-800">✝️ <strong class="font-medium">신앙의 기업:</strong> 물려받은 신앙을 지키고 성장시키기</div>
+                        <div class="p-3 bg-amber-100 rounded-lg text-amber-800">⚖️ <strong class="font-medium">정의의 기업:</strong> 불의에 맞서 하나님의 정의 실현하기</div>
+                        <div class="p-3 bg-amber-100 rounded-lg text-amber-800">🤝 <strong class="font-medium">사랑의 기업:</strong> 서로를 돌보는 공동체 만들기</div>
+                        <div class="p-3 bg-amber-100 rounded-lg text-amber-800">🌟 <strong class="font-medium">비전의 기업:</strong> 주신 소명과 비전을 끝까지 추구하기</div>
+                    </div>
+                    <div class="mt-4">
+                        <label for="myInheritance" class="block text-sm font-medium text-neutral-700 mb-1">내가 지켜나갈 '기업' 다짐해보기 (예: 매일 기도하기, 주1회 봉사하기 등):</label>
+                        <input type="text" id="myInheritance" name="myInheritance" class="w-full p-2 border border-amber-300 rounded-md focus:ring-amber-500 focus:border-amber-500" placeholder="나의 다짐을 적어보세요">
+                        <button id="affirmInheritanceBtn" class="interactive-button mt-3 w-full sm:w-auto">✨ 나의 기업 다짐 응원 받기</button>
+                    </div>
+                    <div id="affirmationResult" class="mt-4 p-3 bg-amber-100 rounded-lg text-amber-800 min-h-[40px] text-center"></div>
+                    <p class="mt-6 text-center font-semibold text-amber-700 text-xl">하나님은 여러분을 포기하지 않으셨습니다. 여러분도 포기하지 마십시오!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-neutral-800 text-amber-100 text-center p-6">
+        <p>&copy; 2024 꿈을 포기하지 마세요 프로젝트. All Rights Reserved.</p>
+        <p class="text-sm mt-1">민수기 27:1-11 말씀을 바탕으로 제작되었습니다.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Smooth scroll for navigation links
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Active navigation link highlighting
+            const sections = document.querySelectorAll('section');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5 
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('nav a.nav-active').forEach(activeLink => {
+                            activeLink.classList.remove('nav-active');
+                        });
+                        const link = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+                        if (link) {
+                            link.classList.add('nav-active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // LLM API call function
+            async function callGeminiAPI(prompt, targetElement, loadingElement) {
+                if (loadingElement) loadingElement.innerHTML = '<div class="loading-spinner"></div> 생각 중...';
+                targetElement.textContent = ''; // Clear previous content
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        targetElement.textContent = text;
+                    } else {
+                        targetElement.textContent = "메시지를 생성하는 데 실패했습니다. 다시 시도해주세요.";
+                        console.error("Gemini API response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    targetElement.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                    console.error("Error calling Gemini API:", error);
+                } finally {
+                    if (loadingElement) loadingElement.innerHTML = ''; // Clear loading indicator
+                }
+            }
+
+            // Struggles interaction (now with LLM)
+            const struggleItems = document.querySelectorAll('.struggle-item');
+            const struggleReflection = document.getElementById('struggleReflection');
+            struggleItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const struggleText = this.dataset.struggle;
+                    struggleItems.forEach(btn => btn.classList.remove('bg-amber-300'));
+                    this.classList.add('bg-amber-300');
+                    
+                    const prompt = `사용자가 '${struggleText}' 때문에 힘들어합니다. 민수기 27:1-11 설교문의 '하나님은 여러분을 포기하지 않으셨습니다. 여러분도 포기하지 마십시오.' 메시지를 바탕으로, 사용자에게 20자 내외의 짧고 공감하며 격려하는 메시지를 한국어로 작성해주세요. 오직 메시지만 출력하세요. 예시: '그 마음, 하나님이 아십니다. 당신의 꿈을 포기하지 마세요!'`;
+                    callGeminiAPI(prompt, struggleReflection, struggleReflection); // Use struggleReflection as loading indicator too
+                });
+            });
+
+            // Daughter info
+            window.showDaughterInfo = function(name) {
+                const daughterInfoEl = document.getElementById('daughterInfo');
+                let message = '';
+                switch(name) {
+                    case '말라': message = '말라: "나의 권리를 포기하지 않겠어!" 용기를 상징합니다.'; break;
+                    case '노아': message = '노아: "함께 목소리를 내자!" 연대의 중요성을 보여줍니다.'; break;
+                    case '호글라': message = '호글라: "정의는 이루어진다!" 믿음을 나타냅니다.'; break;
+                    case '밀가': message = '밀가: "우리의 미래를 위해!" 희망을 상징합니다.'; break;
+                    case '디르사': message = '디르사: "변화를 두려워하지 말자!" 도전을 의미합니다.'; break;
+                }
+                daughterInfoEl.textContent = message;
+            }
+
+            // Stewardship reflection
+            const stewardshipItems = document.querySelectorAll('.stewardship-item');
+            const stewardshipReflectionText = document.getElementById('stewardshipReflectionText');
+            const reflections = {
+                time: "⏰ 시간 관리: 나의 20대, 30대 시간은 하나님께서 맡기신 소중한 자원입니다. 유튜브와 게임은 시간을 가볍게 태워버릴 수 있습니다. 하나님께서 맡기신 시간이라면, 의미 있게 태워야 하지 않을까요?",
+                talent: "🎨 재능 개발: 내가 가진 재능과 능력도 하나님께서 주신 것입니다. 자기만을 위해서가 아니라 하나님과 이웃을 섬기는 데 사용해야 합니다.",
+                money: "💰 물질 사용 (십일조): 시간, 재능, 돈, 생명—모두 주님께서 맡기신 것들입니다. 십일조는 이 모든 사실을 인정하며 하나님을 향한 감사의 의미로 드리는 것입니다. 삶의 소유권이 누구에게 있는지를 묻는 신앙의 본질적인 이야기입니다.",
+                career: "🎯 진로 선택: 취업할 때 단순히 연봉이 높거나 안정적인 곳만 찾지 말고, \"이 일을 통해 하나님께 어떻게 영광을 돌릴 수 있을까?\" 고민해보세요."
+            };
+
+            stewardshipItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const reflectionKey = this.dataset.reflection;
+                    stewardshipReflectionText.innerHTML = reflections[reflectionKey] || "항목을 선택하여 관련된 성찰 내용을 확인해보세요.";
+                    stewardshipItems.forEach(btn => btn.classList.remove('stewardship-active-button'));
+                    this.classList.add('stewardship-active-button');
+                });
+            });
+
+            // My Inheritance Affirmation (with LLM)
+            const myInheritanceInput = document.getElementById('myInheritance');
+            const affirmInheritanceBtn = document.getElementById('affirmInheritanceBtn');
+            const affirmationResult = document.getElementById('affirmationResult');
+
+            affirmInheritanceBtn.addEventListener('click', function() {
+                const myInheritanceValue = myInheritanceInput.value.trim();
+                if (myInheritanceValue) {
+                    const prompt = `사용자가 자신의 '기업'으로 '${myInheritanceValue}'를 지켜나가겠다고 다짐했습니다. 이 다짐과 민수기 27:1-11 설교문의 '여호와의 계획은 영원히 서고 그의 생각은 대대에 이르리로다' 메시지를 연결하여, 사용자에게 30자 내외의 짧고 강력한 격려와 축복의 메시지를 한국어로 작성해주세요. 오직 메시지만 출력하세요. 예시: '당신의 다짐을 응원합니다! 하나님의 계획 안에서 빛날 거예요!'`;
+                    callGeminiAPI(prompt, affirmationResult, affirmationResult); // Use affirmationResult as loading indicator too
+                } else {
+                    affirmationResult.textContent = "다짐 내용을 입력해주세요.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
